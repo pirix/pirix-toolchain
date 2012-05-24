@@ -1,0 +1,48 @@
+diff -rupN newlib-1.20.0/config.sub newlib-1.20.0-pirix/config.sub
+--- newlib-1.20.0/config.sub	2011-11-02 01:56:53.000000000 +0100
++++ newlib-1.20.0-pirix/config.sub	2012-05-24 16:35:34.770385585 +0200
+@@ -1328,7 +1328,7 @@ case $os in
+ 	# The portable systems comes first.
+ 	# Each alternative MUST END IN A *, to match a version number.
+ 	# -sysv* is not here because it comes later, after sysvr4.
+-	-gnu* | -bsd* | -mach* | -minix* | -genix* | -ultrix* | -irix* \
++	-gnu* | -bsd* | -mach* | -minix* | -genix* | -ultrix* | -irix* | -pirix* \
+ 	      | -*vms* | -sco* | -esix* | -isc* | -aix* | -cnk* | -sunos | -sunos[34]*\
+ 	      | -hpux* | -unos* | -osf* | -luna* | -dgux* | -auroraux* | -solaris* \
+ 	      | -sym* | -kopensolaris* \
+diff -rupN newlib-1.20.0/libgloss/arm/Makefile.in newlib-1.20.0-pirix/libgloss/arm/Makefile.in
+--- newlib-1.20.0/libgloss/arm/Makefile.in	2011-06-29 17:32:09.000000000 +0200
++++ newlib-1.20.0-pirix/libgloss/arm/Makefile.in	2012-05-24 16:35:14.703732411 +0200
+@@ -146,7 +146,7 @@ distclean maintainer-clean realclean: cl
+ 	rm -f Makefile config.status *~
+ 
+ .PHONY: install info install-info clean-info
+-install: ${CRT0_INSTALL} ${LINUX_INSTALL} ${REDBOOT_INSTALL} ${RDPMON_INSTALL} ${RDIMON_INSTALL} ${IQ80310_INSTALL}  ${PID_INSTALL}
++install: ${CRT0_INSTALL}
+ 
+ install-crt0:
+ 	${INSTALL_DATA} ${CRT0} $(DESTDIR)${tooldir}/lib${MULTISUBDIR}/$$x
+diff -rupN newlib-1.20.0/newlib/configure.host newlib-1.20.0-pirix/newlib/configure.host
+--- newlib-1.20.0/newlib/configure.host	2011-11-29 07:33:48.000000000 +0100
++++ newlib-1.20.0-pirix/newlib/configure.host	2012-05-24 16:35:34.773718919 +0200
+@@ -357,6 +357,9 @@ case "${host}" in
+ 	posix_dir=posix
+ 	unix_dir=unix
+ 	;;
++  arm-*-pirix*)
++	sys_dir=pirix
++	;;
+   a29k-*-*)
+ 	sys_dir=a29khif
+ 	signal_dir=
+diff -rupN newlib-1.20.0/newlib/libc/sys/configure.in newlib-1.20.0-pirix/newlib/libc/sys/configure.in
+--- newlib-1.20.0/newlib/libc/sys/configure.in	2010-02-24 21:59:55.000000000 +0100
++++ newlib-1.20.0-pirix/newlib/libc/sys/configure.in	2012-05-24 16:35:34.773718919 +0200
+@@ -29,6 +29,7 @@ if test -n "${sys_dir}"; then
+ 	decstation) AC_CONFIG_SUBDIRS(decstation) ;;
+ 	h8300hms) AC_CONFIG_SUBDIRS(h8300hms) ;;
+ 	h8500hms) AC_CONFIG_SUBDIRS(h8500hms) ;;
++	pirix) AC_CONFIG_SUBDIRS(pirix) ;;
+ 	linux) AC_CONFIG_SUBDIRS(linux) ;;
+ 	m88kbug) AC_CONFIG_SUBDIRS(m88kbug) ;;
+ 	mmixware) AC_CONFIG_SUBDIRS(mmixware) ;;

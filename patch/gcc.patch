@@ -1,0 +1,53 @@
+diff -rupN gcc-4.6.3/config.sub gcc-4.6.3-pirix/config.sub
+--- gcc-4.6.3/config.sub	2010-05-25 15:22:07.000000000 +0200
++++ gcc-4.6.3-pirix/config.sub	2012-05-23 00:43:04.565759215 +0200
+@@ -1292,7 +1292,7 @@ case $os in
+ 	# The portable systems comes first.
+ 	# Each alternative MUST END IN A *, to match a version number.
+ 	# -sysv* is not here because it comes later, after sysvr4.
+-	-gnu* | -bsd* | -mach* | -minix* | -genix* | -ultrix* | -irix* \
++	-gnu* | -bsd* | -mach* | -minix* | -genix* | -ultrix* | -irix* | -pirix* \
+ 	      | -*vms* | -sco* | -esix* | -isc* | -aix* | -cnk* | -sunos | -sunos[34]*\
+ 	      | -hpux* | -unos* | -osf* | -luna* | -dgux* | -auroraux* | -solaris* \
+ 	      | -sym* | -kopensolaris* \
+diff -rupN gcc-4.6.3/gcc/config.gcc gcc-4.6.3-pirix/gcc/config.gcc
+--- gcc-4.6.3/gcc/config.gcc	2011-07-22 18:44:50.000000000 +0200
++++ gcc-4.6.3-pirix/gcc/config.gcc	2012-05-23 00:50:20.353071579 +0200
+@@ -695,6 +695,12 @@ case ${target} in
+     *) echo 'Unknown thread configuration for VxWorks'; exit 1 ;;
+   esac
+   ;;
++*-*-pirix*)
++   extra_parts="crtbegin.o crtend.o"
++   gas=yes
++   gnu_ld=yes
++   default_use_cxa_atexit=yes
++   ;;
+ *-*-elf)
+   # Assume that newlib is being used and so __cxa_atexit is provided.
+   default_use_cxa_atexit=yes
+@@ -918,6 +924,12 @@ arm-*-pe*)
+ 	extra_options="${extra_options} arm/pe.opt"
+ 	extra_objs="pe.o"
+ 	;;
++arm-*-pirix*)
++	tm_file="dbxelf.h elfos.h arm/unknown-elf.h arm/elf.h arm/aout.h arm/arm.h pirix.h"
++	tmake_file="arm/t-arm arm/t-arm-elf"
++	tmake_file="${tmake_file} arm/t-arm-softfp soft-fp/t-softfp"
++	use_fixproto=yes
++	;;
+ avr-*-rtems*)
+ 	tm_file="avr/avr.h dbxelf.h avr/rtems.h rtems.h newlib-stdint.h"
+ 	tmake_file="avr/t-avr t-rtems avr/t-rtems"
+diff -rupN gcc-4.6.3/libgcc/config.host gcc-4.6.3-pirix/libgcc/config.host
+--- gcc-4.6.3/libgcc/config.host	2011-11-23 23:15:54.000000000 +0100
++++ gcc-4.6.3-pirix/libgcc/config.host	2012-05-23 00:43:04.565759215 +0200
+@@ -217,6 +217,8 @@ arm*-wince-pe*)
+ 	;;
+ arm-*-pe*)
+ 	;;
++arm-*-pirix*)
++    ;;
+ avr-*-rtems*)
+ 	;;
+ avr-*-*)
