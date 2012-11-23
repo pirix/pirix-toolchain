@@ -86,8 +86,8 @@ gcc-configure: $(GCC_DIR)/.patched
 				         --prefix=$(PREFIX) \
 	                     --disable-nls \
                          --disable-shared \
+                         --disable-libssp \
                          --enable-languages=c \
-                         --without-headers \
                          --with-newlib \
                          --with-float=soft
 
