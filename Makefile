@@ -46,6 +46,8 @@ binutils-make: $(BINUTILS_DIR)/.patched
 	                     --target=$(TARGET) \
 				         --prefix=$(PREFIX) \
                          --disable-nls \
+                         --enable-interwork \
+                         --enable-multilib \
                          --with-float=soft
 	make -C build/binutils all
 
@@ -79,7 +81,7 @@ gcc-make: gcc-configure
 	make -C build/gcc all-gcc
 	make -C build/gcc all-target-libgcc
 
-gcc-configure: $(GCC_DIR)/.patched
+gcc-configure: $(GCC_DIR)/.patched newlib-data
 	mkdir -p build/gcc
 	cd build/gcc && ../../$(GCC_DIR)/configure \
 	                     --target=$(TARGET) \
@@ -87,8 +89,11 @@ gcc-configure: $(GCC_DIR)/.patched
 	                     --disable-nls \
                          --disable-shared \
                          --disable-libssp \
+                         --enable-interwork \
+                         --enable-multilib \
                          --enable-languages=c \
                          --with-newlib \
+                         --with-headers=../../${NEWLIB_DIR}/newlib/libc/include \
                          --with-float=soft
 
 gcc-diff: $(GCC_PACKAGE)
