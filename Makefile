@@ -45,7 +45,8 @@ binutils-make: $(BINUTILS_DIR)/.patched
 	cd build/binutils && ../../$(BINUTILS_DIR)/configure \
 	                     --target=$(TARGET) \
 				         --prefix=$(PREFIX) \
-                         --disable-nls
+                         --disable-nls \
+                         --with-float=soft
 	make -C build/binutils all
 
 binutils-diff: $(BINUTILS_PACKAGE)
@@ -87,7 +88,8 @@ gcc-configure: $(GCC_DIR)/.patched
                          --disable-shared \
                          --enable-languages=c \
                          --without-headers \
-                         --with-newlib
+                         --with-newlib \
+                         --with-float=soft
 
 gcc-diff: $(GCC_PACKAGE)
 	mv $(GCC_DIR) $(GCC_DIR)-pirix
@@ -119,7 +121,11 @@ newlib-make: $(NEWLIB_DIR)/.patched
 	mkdir -p build/newlib
 	cd build/newlib && ../../$(NEWLIB_DIR)/configure \
 	                     --target=$(TARGET) \
-				         --prefix=$(PREFIX)
+				         --prefix=$(PREFIX) \
+                         --enable-interwork \
+                         --with-gnu-ld \
+                         --with-gnu-as \
+                         --with-float=soft
 	make -C build/newlib all
 
 newlib-diff: $(NEWLIB_PACKAGE)
