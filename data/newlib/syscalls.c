@@ -85,10 +85,21 @@ int _symlink(const char* path1, const char* path2) {
     return -1;
 }
 
-
 clock_t _times(struct tms* buf) {
     errno = ENOSYS;
     return -1;
+}
+
+int _gettimeofday(struct timeval* tp, struct timezone* tzp) {
+    if(tp) {
+        tp->tv_sec = 10;
+        tp->tv_usec = 0;
+    }
+    if (tzp) {
+        tzp->tz_minuteswest = 0;
+        tzp->tz_dsttime = 0;
+    }
+    return 0;
 }
 
 int _unlink(char* name) {
