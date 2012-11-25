@@ -78,6 +78,6 @@ call_wait:
     bx lr
 
 .global call_sbrk
-call_wait:
+call_sbrk:
     swi #SYS_SBRK
     bx lr
