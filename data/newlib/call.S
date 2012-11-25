@@ -76,3 +76,8 @@ call_unlink:
 call_wait:
     swi #SYS_WAIT
     bx lr
+
+.global call_sbrk
+call_wait:
+    swi #SYS_SBRK
+    bx lr

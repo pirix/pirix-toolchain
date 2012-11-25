@@ -31,6 +31,7 @@ int _fork() {
 }
 
 int _fstat(int file, struct stat* st) {
+    st->st_mode = S_IFCHR;
     return call_fstat(file, (int)st);
 }
 
@@ -58,25 +59,12 @@ int _open(const char *name, int flags, ...) {
     return call_open((int)name, flags);
 }
 
-void* _sbrk(int incr) {
-    return (void*)0;
+caddr_t _sbrk(int incr) {
+    return (caddr_t)call_sbrk(incr);
 }
 
 int _stat(const char *name, struct stat *st) {
-    st->st_dev = 1;
-    st->st_ino = 1;
-    st->st_mode = S_IFREG | S_IRUSR | S_IWUSR | S_IXUSR;
-    st->st_nlink = 0;
-    st->st_uid = 1;
-    st->st_gid = 1;
-    st->st_rdev = 0;
-    st->st_size = 0x1000;
-    st->st_blksize = 512;
-    st->st_blocks = 16;
-    st->st_atime = 0;
-    st->st_mtime = 0;
-    st->st_ctime = 0;
-
+    st->st_mode = S_IFCHR;
     return 0;
 }
 

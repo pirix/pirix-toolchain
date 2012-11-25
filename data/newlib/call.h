@@ -13,3 +13,4 @@ extern int call_read(int, int, int);
 extern int call_write(int, int, int);
 extern int call_unlink(int);
 extern int call_wait(int);
+extern int call_sbrk(int);
