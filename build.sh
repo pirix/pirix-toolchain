@@ -3,6 +3,7 @@
 . ./config.sh
 
 pushd $BUILDDIR
+<<COMMENT
   mkdir -p binutils
   pushd binutils
     $BASEDIR/$BINUTILS_DIR/configure \
@@ -35,6 +36,8 @@ pushd $BUILDDIR
     make install-gcc DESTDIR=$DESTDIR || exit 1
     make install-target-libgcc DESTDIR=$DESTDIR || exit 1
   popd
+
+COMMENT
 
   mkdir -p newlib
   pushd newlib
