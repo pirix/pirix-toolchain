@@ -1,3 +1,6 @@
+#!/bin/bash
+
 . ./config.sh
 
-cp -r $DESTDIR/$PREFIX/* $PREFIX/
+mkdir -p $PREFIX
+cp -r $DESTDIR/$PREFIX/* $PREFIX

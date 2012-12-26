@@ -18,7 +18,7 @@ diff -rupN newlib-1.20.0/libgloss/arm/Makefile.in newlib-1.20.0-pirix/libgloss/a
  
  .PHONY: install info install-info clean-info
 -install: ${CRT0_INSTALL} ${LINUX_INSTALL} ${REDBOOT_INSTALL} ${RDPMON_INSTALL} ${RDIMON_INSTALL} ${IQ80310_INSTALL}  ${PID_INSTALL}
-+install: ${CRT0_INSTALL}
++install:
  
  install-crt0:
  	${INSTALL_DATA} ${CRT0} $(DESTDIR)${tooldir}/lib${MULTISUBDIR}/$$x
@@ -30,19 +30,8 @@ diff -rupN newlib-1.20.0/newlib/configure.host newlib-1.20.0-pirix/newlib/config
  	unix_dir=unix
  	;;
 +  arm-*-pirix*)
-+	sys_dir=pirix
++
 +	;;
    a29k-*-*)
  	sys_dir=a29khif
  	signal_dir=
-diff -rupN newlib-1.20.0/newlib/libc/sys/configure.in newlib-1.20.0-pirix/newlib/libc/sys/configure.in
---- newlib-1.20.0/newlib/libc/sys/configure.in	2010-02-24 21:59:55.000000000 +0100
-+++ newlib-1.20.0-pirix/newlib/libc/sys/configure.in	2012-05-24 16:35:34.773718919 +0200
-@@ -29,6 +29,7 @@ if test -n "${sys_dir}"; then
- 	decstation) AC_CONFIG_SUBDIRS(decstation) ;;
- 	h8300hms) AC_CONFIG_SUBDIRS(h8300hms) ;;
- 	h8500hms) AC_CONFIG_SUBDIRS(h8500hms) ;;
-+	pirix) AC_CONFIG_SUBDIRS(pirix) ;;
- 	linux) AC_CONFIG_SUBDIRS(linux) ;;
- 	m88kbug) AC_CONFIG_SUBDIRS(m88kbug) ;;
- 	mmixware) AC_CONFIG_SUBDIRS(mmixware) ;;

@@ -9,3 +9,6 @@
 
 #undef TARGET_VERSION
 #define TARGET_VERSION fprintf(stderr, " (arm pirix)");
+
+#undef LIB_SPEC
+#define LIB_SPEC "-lc -lpirix"

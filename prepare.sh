@@ -1,3 +1,5 @@
+#!/bin/bash
+
 . ./config.sh
 
 get $BINUTILS_URL/$BINUTILS_PACKAGE
@@ -18,12 +20,5 @@ cp data/gcc/pirix.h $GCC_DIR/gcc/config/
 
 log "patching newlib"
 patch -p0 < patch/newlib.patch
-pushd $NEWLIB_DIR/newlib/libc/sys/
-  autoconf
-  mkdir -p pirix
-  cp $(dirs +1)/data/newlib/* pirix/
-  autoconf
-  cd pirix/ && autoreconf
-popd
 
 mkdir -p $DESTDIR $BUILDDIR
