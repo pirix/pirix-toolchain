@@ -13,6 +13,7 @@ unpack $NEWLIB_PACKAGE
 log "patching binutils"
 patch -p0 < patch/binutils.patch
 cp data/binutils/armelf_pirix.sh $BINUTILS_DIR/ld/emulparams/
+cp data/binutils/i386elf_pirix.sh $BINUTILS_DIR/ld/emulparams/
 
 log "patching gcc"
 patch -p0 < patch/gcc.patch

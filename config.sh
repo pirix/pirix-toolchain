@@ -1,4 +1,5 @@
-TARGET=arm-elf-pirix
+ARCH=arm
+TARGET=$ARCH-elf-pirix
 PREFIX=/usr/local/cross
 DESTDIR=`pwd`/cross
 BUILDDIR=`pwd`/build

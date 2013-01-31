@@ -26,7 +26,7 @@ diff -rupN gcc-4.6.3/gcc/config.gcc gcc-4.6.3-pirix/gcc/config.gcc
  *-*-elf)
    # Assume that newlib is being used and so __cxa_atexit is provided.
    default_use_cxa_atexit=yes
-@@ -918,6 +924,12 @@ arm-*-pe*)
+@@ -918,6 +924,17 @@ arm-*-pe*)
  	extra_options="${extra_options} arm/pe.opt"
  	extra_objs="pe.o"
  	;;
@@ -36,17 +36,26 @@ diff -rupN gcc-4.6.3/gcc/config.gcc gcc-4.6.3-pirix/gcc/config.gcc
 +	tmake_file="${tmake_file} arm/t-arm-softfp soft-fp/t-softfp"
 +	use_fixproto=yes
 +	;;
++i[3-7]86-*-pirix*)
++	tm_file="${tm_file} i386/unix.h i386/att.h dbxelf.h elfos.h i386/i386elf.h pirix.h"
++	tmake_file="${tmake_file} i386/t-i386elf t-svr4 i386/t-crtstuff"
++	use_fixproto=yes
++	;;
  avr-*-rtems*)
  	tm_file="avr/avr.h dbxelf.h avr/rtems.h rtems.h newlib-stdint.h"
  	tmake_file="avr/t-avr t-rtems avr/t-rtems"
 diff -rupN gcc-4.6.3/libgcc/config.host gcc-4.6.3-pirix/libgcc/config.host
 --- gcc-4.6.3/libgcc/config.host	2011-11-23 23:15:54.000000000 +0100
 +++ gcc-4.6.3-pirix/libgcc/config.host	2012-05-23 00:43:04.565759215 +0200
-@@ -217,6 +217,8 @@ arm*-wince-pe*)
+@@ -217,6 +217,12 @@ arm*-wince-pe*)
  	;;
  arm-*-pe*)
  	;;
 +arm-*-pirix*)
++    ;;
++i[3-7]86-*-pirix*)
++    extra_parts="crtbegin.o crtend.o"
++    tmake_file="$tmake_file i386/t-crtstuff"
 +    ;;
  avr-*-rtems*)
  	;;

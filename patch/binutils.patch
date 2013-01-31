@@ -1,13 +1,17 @@
 diff -rupN binutils-2.22/bfd/config.bfd binutils-2.22-pirix/bfd/config.bfd
 --- binutils-2.22/bfd/config.bfd	2011-07-29 00:35:13.000000000 +0200
 +++ binutils-2.22-pirix/bfd/config.bfd	2012-05-22 23:29:18.864454480 +0200
-@@ -285,6 +285,10 @@ case "${targ}" in
+@@ -285,6 +285,14 @@ case "${targ}" in
      targ_defvec=bfd_elf32_littlearm_vec
      targ_selvecs=bfd_elf32_bigarm_vec
      ;;
 +  arm*-*-pirix* )
 +    targ_defvec=bfd_elf32_littlearm_vec
 +    targ_selvecs=bfd_elf32_bigarm_vec
++    ;;
++  i[3-7]86-*-pirix* )
++    targ_defvec=bfd_elf32_i386_vec
++    targ_selvecs=i386coff_vec
 +    ;;
    arm*-*-vxworks | arm*-*-windiss)
      targ_defvec=bfd_elf32_littlearm_vxworks_vec
@@ -27,11 +31,12 @@ diff -rupN binutils-2.22/config.sub binutils-2.22-pirix/config.sub
 diff -rupN binutils-2.22/gas/configure.tgt binutils-2.22-pirix/gas/configure.tgt
 --- binutils-2.22/gas/configure.tgt	2011-06-20 15:23:21.000000000 +0200
 +++ binutils-2.22-pirix/gas/configure.tgt	2012-05-22 23:30:21.539303409 +0200
-@@ -116,6 +116,7 @@ case ${generic_target} in
+@@ -116,6 +116,8 @@ case ${generic_target} in
    arm-*-netbsdelf*)			fmt=elf  em=nbsd ;;
    arm-*-*n*bsd*)			fmt=aout em=nbsd ;;
    arm-*-nto*)				fmt=elf ;;
-+  arm-*-pirix*)			fmt=elf ;;
++  arm-*-pirix*)		    fmt=elf ;;
++  i386-*-pirix*)           fmt=elf ;;
    arm-epoc-pe)				fmt=coff em=epoc-pe ;;
    arm-wince-pe | arm-*-wince | arm*-*-mingw32ce* | arm*-*-cegcc*)
  					fmt=coff em=wince-pe ;;
@@ -43,14 +48,14 @@ diff -rupN binutils-2.22/ld/configure.tgt binutils-2.22-pirix/ld/configure.tgt
  arm-*-vxworks)		targ_emul=armelf_vxworks ;;
  arm*-*-conix*)		targ_emul=armelf ;;
 +arm*-*-pirix*)	        targ_emul=armelf_pirix ;;
-+
++i[3-7]86-*-pirix*)     targ_emul=i386elf_pirix ;;
  avr-*-*)		targ_emul=avr2
  			targ_extra_emuls="avr1 avr25 avr3 avr31 avr35 avr4 avr5 avr51 avr6 avrxmega1 avrxmega2 avrxmega3 avrxmega4 avrxmega5 avrxmega6 avrxmega7"
  			;;
 diff -rupN binutils-2.22/ld/Makefile.in binutils-2.22-pirix/ld/Makefile.in
 --- binutils-2.22/ld/Makefile.in	2011-07-22 22:22:37.000000000 +0200
 +++ binutils-2.22-pirix/ld/Makefile.in	2012-05-22 23:32:44.165167189 +0200
-@@ -2167,6 +2167,10 @@ earmelf_vxworks.c: $(srcdir)/emulparams/
+@@ -2167,6 +2167,14 @@ earmelf_vxworks.c: $(srcdir)/emulparams/
    $(srcdir)/emultempl/armelf.em $(srcdir)/scripttempl/elf.sc \
    ${GEN_DEPENDS}
  	${GENSCRIPTS} armelf_vxworks "$(tdir_armelf)"
@@ -58,6 +63,10 @@ diff -rupN binutils-2.22/ld/Makefile.in binutils-2.22-pirix/ld/Makefile.in
 +  $(ELF_DEPS) $(srcdir)/emultempl/armelf.em \
 +  $(srcdir)/scripttempl/elf.sc ${GEN_DEPENDS}
 +	${GENSCRIPTS} armelf_pirix "$(tdir_armelf_pirix)"
++ei386elf_pirix.c: $(srcdir)/emulparams/i386elf_pirix.sh \
++  $(ELF_DEPS) $(srcdir)/emultempl/elf32.em \
++  $(srcdir)/scripttempl/elf.sc ${GEN_DEPENDS}
++	${GENSCRIPTS} i386elf_pirix "$(tdir_i386elf_pirix)"
  earmelfb.c: $(srcdir)/emulparams/armelfb.sh $(srcdir)/emulparams/armelf.sh \
    $(ELF_DEPS) $(srcdir)/emultempl/armelf.em \
    $(srcdir)/scripttempl/elf.sc ${GEN_DEPENDS}

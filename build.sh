@@ -11,7 +11,7 @@ pushd $BUILDDIR
       --disable-nls \
       --enable-interwork \
       --enable-multilib \
-      --with-float=soft
+      `if [[ $ARCH == arm ]]; then echo "--with-float=soft"; fi`
     make $MAKEFLAGS all || exit 1
     make install DESTDIR=$DESTDIR || exit 1
   popd
@@ -27,8 +27,7 @@ pushd $BUILDDIR
       --enable-multilib \
       --enable-languages=c \
       --with-newlib \
-      --with-headers=../../$NEWLIB_DIR/newlib/libc/include \
-      --with-float=soft
+      `if [[ $ARCH == arm ]]; then echo "--with-float=soft"; fi`
 
     make $MAKEFLAGS all-gcc || exit 1
     make $MAKEFLAGS all-target-libgcc || exit 1
@@ -47,7 +46,7 @@ pushd $BUILDDIR
       --without-libgloss \
       --disable-libgloss \
       --disable-newlib-supplied-syscalls \
-      --with-float=soft
+      `if [[ $ARCH == arm ]]; then echo "--with-float=soft"; fi`
 
     make $MAKEFLAGS all || exit 1
     make install DESTDIR=$DESTDIR || exit 1
