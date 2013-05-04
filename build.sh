@@ -13,6 +13,7 @@ pushd $BUILDDIR
       --disable-nls \
       --enable-interwork \
       --enable-multilib \
+      --enable-gold \
       `if [[ $ARCH == arm ]]; then echo "--with-float=soft"; fi`
     make $MAKEFLAGS all || exit 1
     make install DESTDIR=$DESTDIR || exit 1
