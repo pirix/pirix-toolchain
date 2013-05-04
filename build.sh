@@ -2,6 +2,8 @@
 
 . ./config.sh
 
+mkdir -p $BUILDDIR
+
 pushd $BUILDDIR
   mkdir -p binutils
   pushd binutils
@@ -27,6 +29,7 @@ pushd $BUILDDIR
       --enable-multilib \
       --enable-languages=c \
       --with-newlib \
+      --with-system-zlib \
       `if [[ $ARCH == arm ]]; then echo "--with-float=soft"; fi`
 
     make $MAKEFLAGS all-gcc || exit 1

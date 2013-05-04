@@ -1,7 +1,7 @@
-diff -rupN gcc-4.6.3/config.sub gcc-4.6.3-pirix/config.sub
---- gcc-4.6.3/config.sub	2010-05-25 15:22:07.000000000 +0200
-+++ gcc-4.6.3-pirix/config.sub	2012-05-23 00:43:04.565759215 +0200
-@@ -1292,7 +1292,7 @@ case $os in
+diff -rupN gcc-4.8.0/config.sub gcc-4.8.0-patched/config.sub
+--- gcc-4.8.0/config.sub	2013-01-11 14:02:58.000000000 +0100
++++ gcc-4.8.0-patched/config.sub	2013-05-04 19:33:26.000000000 +0200
+@@ -1353,7 +1353,7 @@ case $os in
  	# The portable systems comes first.
  	# Each alternative MUST END IN A *, to match a version number.
  	# -sysv* is not here because it comes later, after sysvr4.
@@ -9,29 +9,29 @@ diff -rupN gcc-4.6.3/config.sub gcc-4.6.3-pirix/config.sub
 +	-gnu* | -bsd* | -mach* | -minix* | -genix* | -ultrix* | -irix* | -pirix* \
  	      | -*vms* | -sco* | -esix* | -isc* | -aix* | -cnk* | -sunos | -sunos[34]*\
  	      | -hpux* | -unos* | -osf* | -luna* | -dgux* | -auroraux* | -solaris* \
- 	      | -sym* | -kopensolaris* \
-diff -rupN gcc-4.6.3/gcc/config.gcc gcc-4.6.3-pirix/gcc/config.gcc
---- gcc-4.6.3/gcc/config.gcc	2011-07-22 18:44:50.000000000 +0200
-+++ gcc-4.6.3-pirix/gcc/config.gcc	2012-05-23 00:50:20.353071579 +0200
-@@ -695,6 +695,12 @@ case ${target} in
+ 	      | -sym* | -kopensolaris* | -plan9* \
+diff -rupN gcc-4.8.0/gcc/config.gcc gcc-4.8.0-patched/gcc/config.gcc
+--- gcc-4.8.0/gcc/config.gcc	2013-03-13 10:47:41.000000000 +0100
++++ gcc-4.8.0-patched/gcc/config.gcc	2013-05-04 19:37:21.000000000 +0200
+@@ -805,6 +805,12 @@ case ${target} in
      *) echo 'Unknown thread configuration for VxWorks'; exit 1 ;;
    esac
    ;;
 +*-*-pirix*)
-+   extra_parts="crtbegin.o crtend.o"
-+   gas=yes
-+   gnu_ld=yes
-+   default_use_cxa_atexit=yes
-+   ;;
++  extra_parts="crtbegin.o crtend.o"
++  gas=yes
++  gnu_ld=yes
++  default_use_cxa_atexit=yes
++  ;;
  *-*-elf)
    # Assume that newlib is being used and so __cxa_atexit is provided.
    default_use_cxa_atexit=yes
-@@ -918,6 +924,17 @@ arm-*-pe*)
- 	extra_options="${extra_options} arm/pe.opt"
- 	extra_objs="pe.o"
+@@ -933,6 +939,17 @@ arm*-*-eabi* | arm*-*-symbianelf* | arm*
+ 	esac
+ 	tm_file="${tm_file} arm/aout.h vxworks-dummy.h arm/arm.h"
  	;;
 +arm-*-pirix*)
-+	tm_file="dbxelf.h elfos.h arm/unknown-elf.h arm/elf.h arm/aout.h arm/arm.h pirix.h"
++    tm_file="dbxelf.h elfos.h arm/unknown-elf.h arm/elf.h arm/aout.h arm/arm.h pirix.h"
 +	tmake_file="arm/t-arm arm/t-arm-elf"
 +	tmake_file="${tmake_file} arm/t-arm-softfp soft-fp/t-softfp"
 +	use_fixproto=yes
@@ -42,14 +42,14 @@ diff -rupN gcc-4.6.3/gcc/config.gcc gcc-4.6.3-pirix/gcc/config.gcc
 +	use_fixproto=yes
 +	;;
  avr-*-rtems*)
- 	tm_file="avr/avr.h dbxelf.h avr/rtems.h rtems.h newlib-stdint.h"
- 	tmake_file="avr/t-avr t-rtems avr/t-rtems"
-diff -rupN gcc-4.6.3/libgcc/config.host gcc-4.6.3-pirix/libgcc/config.host
---- gcc-4.6.3/libgcc/config.host	2011-11-23 23:15:54.000000000 +0100
-+++ gcc-4.6.3-pirix/libgcc/config.host	2012-05-23 00:43:04.565759215 +0200
-@@ -217,6 +217,12 @@ arm*-wince-pe*)
- 	;;
- arm-*-pe*)
+ 	tm_file="elfos.h avr/elf.h avr/avr-arch.h avr/avr.h dbxelf.h avr/rtems.h rtems.h newlib-stdint.h"
+ 	tmake_file="avr/t-avr avr/t-multilib t-rtems avr/t-rtems"
+diff -rupN gcc-4.8.0/libgcc/config.host gcc-4.8.0-patched/libgcc/config.host
+--- gcc-4.8.0/libgcc/config.host	2013-02-04 20:06:20.000000000 +0100
++++ gcc-4.8.0-patched/libgcc/config.host	2013-05-04 19:40:11.000000000 +0200
+@@ -354,6 +354,12 @@ arm*-*-eabi* | arm*-*-symbianelf* | arm*
+ 	tmake_file="$tmake_file t-softfp-sfdf t-softfp-excl arm/t-softfp t-softfp"
+ 	unwind_header=config/arm/unwind-arm.h
  	;;
 +arm-*-pirix*)
 +    ;;
@@ -58,5 +58,5 @@ diff -rupN gcc-4.6.3/libgcc/config.host gcc-4.6.3-pirix/libgcc/config.host
 +    tmake_file="$tmake_file i386/t-crtstuff"
 +    ;;
  avr-*-rtems*)
- 	;;
- avr-*-*)
+ 	tmake_file="$tmake_file avr/t-avr avr/t-rtems t-fpbit"
+ 	tm_file="$tm_file avr/avr-lib.h"
