@@ -18,7 +18,7 @@ diff -rupN gcc-4.8.0/gcc/config.gcc gcc-4.8.0-patched/gcc/config.gcc
    esac
    ;;
 +*-*-pirix*)
-+  extra_parts="crtbegin.o crtend.o"
++  extra_parts="${extra_parts} crtbegin.o crtend.o"
 +  gas=yes
 +  gnu_ld=yes
 +  default_use_cxa_atexit=yes
@@ -47,14 +47,16 @@ diff -rupN gcc-4.8.0/gcc/config.gcc gcc-4.8.0-patched/gcc/config.gcc
 diff -rupN gcc-4.8.0/libgcc/config.host gcc-4.8.0-patched/libgcc/config.host
 --- gcc-4.8.0/libgcc/config.host	2013-02-04 20:06:20.000000000 +0100
 +++ gcc-4.8.0-patched/libgcc/config.host	2013-05-04 19:40:11.000000000 +0200
-@@ -354,6 +354,12 @@ arm*-*-eabi* | arm*-*-symbianelf* | arm*
+@@ -354,6 +354,14 @@ arm*-*-eabi* | arm*-*-symbianelf* | arm*
  	tmake_file="$tmake_file t-softfp-sfdf t-softfp-excl arm/t-softfp t-softfp"
  	unwind_header=config/arm/unwind-arm.h
  	;;
 +arm-*-pirix*)
++    extra_parts="${extra_parts} crtbegin.o crtend.o crti.o crtn.o"
++    tmake_file="$tmake_file arm/t-arm arm/t-softfp t-softfp"
 +    ;;
 +i[3-7]86-*-pirix*)
-+    extra_parts="crtbegin.o crtend.o"
++    extra_parts="${extra_parts} crtbegin.o crtend.o crti.o crtn.o"
 +    tmake_file="$tmake_file i386/t-crtstuff"
 +    ;;
  avr-*-rtems*)

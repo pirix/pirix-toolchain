@@ -12,9 +12,9 @@ pushd $BUILDDIR
       --target=$TARGET \
       --disable-nls \
       --enable-interwork \
-      --enable-multilib \
-      --enable-gold \
-      `if [[ $ARCH == arm ]]; then echo "--with-float=soft"; fi`
+      --disable-multilib \
+      `if [[ $ARCH == arm ]]; then echo "--with-float=soft --with-fpu=vfp"; fi`
+
     make $MAKEFLAGS all || exit 1
     make install DESTDIR=$DESTDIR || exit 1
   popd
@@ -31,7 +31,7 @@ pushd $BUILDDIR
       --enable-languages=c \
       --with-newlib \
       --with-system-zlib \
-      `if [[ $ARCH == arm ]]; then echo "--with-float=soft"; fi`
+      `if [[ $ARCH == arm ]]; then echo "--with-float=soft --with-fpu=vfp --disable-multilib"; fi`
 
     make $MAKEFLAGS all-gcc || exit 1
     make $MAKEFLAGS all-target-libgcc || exit 1
@@ -49,8 +49,7 @@ pushd $BUILDDIR
       --with-gnu-as \
       --without-libgloss \
       --disable-libgloss \
-      --disable-newlib-supplied-syscalls \
-      `if [[ $ARCH == arm ]]; then echo "--with-float=soft"; fi`
+      --disable-newlib-supplied-syscalls
 
     make $MAKEFLAGS all || exit 1
     make install DESTDIR=$DESTDIR || exit 1
