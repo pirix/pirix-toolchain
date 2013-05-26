@@ -1,6 +1,6 @@
 diff -rupN gcc-4.8.0/config.sub gcc-4.8.0-patched/config.sub
---- gcc-4.8.0/config.sub	2013-01-11 14:02:58.000000000 +0100
-+++ gcc-4.8.0-patched/config.sub	2013-05-04 19:33:26.000000000 +0200
+--- gcc-4.8.0/config.sub	2013-05-27 00:03:04.720744716 +0200
++++ gcc-4.8.0-patched/config.sub	2013-05-27 00:03:42.190733185 +0200
 @@ -1353,7 +1353,7 @@ case $os in
  	# The portable systems comes first.
  	# Each alternative MUST END IN A *, to match a version number.
@@ -11,8 +11,8 @@ diff -rupN gcc-4.8.0/config.sub gcc-4.8.0-patched/config.sub
  	      | -hpux* | -unos* | -osf* | -luna* | -dgux* | -auroraux* | -solaris* \
  	      | -sym* | -kopensolaris* | -plan9* \
 diff -rupN gcc-4.8.0/gcc/config.gcc gcc-4.8.0-patched/gcc/config.gcc
---- gcc-4.8.0/gcc/config.gcc	2013-03-13 10:47:41.000000000 +0100
-+++ gcc-4.8.0-patched/gcc/config.gcc	2013-05-04 19:37:21.000000000 +0200
+--- gcc-4.8.0/gcc/config.gcc	2013-05-27 00:02:39.077419333 +0200
++++ gcc-4.8.0-patched/gcc/config.gcc	2013-05-27 00:03:42.194066517 +0200
 @@ -805,6 +805,12 @@ case ${target} in
      *) echo 'Unknown thread configuration for VxWorks'; exit 1 ;;
    esac
@@ -45,8 +45,8 @@ diff -rupN gcc-4.8.0/gcc/config.gcc gcc-4.8.0-patched/gcc/config.gcc
  	tm_file="elfos.h avr/elf.h avr/avr-arch.h avr/avr.h dbxelf.h avr/rtems.h rtems.h newlib-stdint.h"
  	tmake_file="avr/t-avr avr/t-multilib t-rtems avr/t-rtems"
 diff -rupN gcc-4.8.0/libgcc/config.host gcc-4.8.0-patched/libgcc/config.host
---- gcc-4.8.0/libgcc/config.host	2013-02-04 20:06:20.000000000 +0100
-+++ gcc-4.8.0-patched/libgcc/config.host	2013-05-04 19:40:11.000000000 +0200
+--- gcc-4.8.0/libgcc/config.host	2013-05-27 00:03:27.937404226 +0200
++++ gcc-4.8.0-patched/libgcc/config.host	2013-05-27 00:03:42.200733181 +0200
 @@ -354,6 +354,14 @@ arm*-*-eabi* | arm*-*-symbianelf* | arm*
  	tmake_file="$tmake_file t-softfp-sfdf t-softfp-excl arm/t-softfp t-softfp"
  	unwind_header=config/arm/unwind-arm.h
@@ -62,3 +62,19 @@ diff -rupN gcc-4.8.0/libgcc/config.host gcc-4.8.0-patched/libgcc/config.host
  avr-*-rtems*)
  	tmake_file="$tmake_file avr/t-avr avr/t-rtems t-fpbit"
  	tm_file="$tm_file avr/avr-lib.h"
+diff -rupN gcc-4.8.0/libstdc++-v3/crossconfig.m4 gcc-4.8.0-patched/libstdc++-v3/crossconfig.m4
+--- gcc-4.8.0/libstdc++-v3/crossconfig.m4	2013-05-27 00:06:18.413989202 +0200
++++ gcc-4.8.0-patched/libstdc++-v3/crossconfig.m4	2013-05-27 00:08:15.350544987 +0200
+@@ -150,6 +150,12 @@ case "${host}" in
+     GCC_CHECK_TLS
+     AM_ICONV
+     ;;
++  *-pirix*)
++   AC_CHECK_HEADERS([sys/types.h locale.h float.h])
++   GLIBCXX_CHECK_BUILTIN_MATH_SUPPORT
++   GLIBCXX_CHECK_COMPLEX_MATH_SUPPORT
++   GLIBCXX_CHECK_STDLIB_SUPPORT
++   ;;
+   *-mingw32*)
+     GLIBCXX_CHECK_LINKER_FEATURES
+     GLIBCXX_CHECK_MATH_SUPPORT
