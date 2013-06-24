@@ -13,12 +13,15 @@ diff -rupN gcc-4.8.0/config.sub gcc-4.8.0-patched/config.sub
 diff -rupN gcc-4.8.0/gcc/config.gcc gcc-4.8.0-patched/gcc/config.gcc
 --- gcc-4.8.0/gcc/config.gcc	2013-05-27 00:02:39.077419333 +0200
 +++ gcc-4.8.0-patched/gcc/config.gcc	2013-05-27 00:03:42.194066517 +0200
-@@ -805,6 +805,12 @@ case ${target} in
+@@ -805,6 +805,15 @@ case ${target} in
      *) echo 'Unknown thread configuration for VxWorks'; exit 1 ;;
    esac
    ;;
 +*-*-pirix*)
-+  extra_parts="${extra_parts} crtbegin.o crtend.o"
++  extra_options="$extra_options gnu-user.opt"
++  extra_parts="crtbegin.o crtbeginS.o crtbeginT.o crtend.o crtendS.o libgcc_eh.a"
++  tm_defines="$tm_defines DEFAULT_LIBC=LIBC_GLIBC"
++  use_gcc_stdint=wrap
 +  gas=yes
 +  gnu_ld=yes
 +  default_use_cxa_atexit=yes
@@ -31,13 +34,13 @@ diff -rupN gcc-4.8.0/gcc/config.gcc gcc-4.8.0-patched/gcc/config.gcc
  	tm_file="${tm_file} arm/aout.h vxworks-dummy.h arm/arm.h"
  	;;
 +arm-*-pirix*)
-+    tm_file="dbxelf.h elfos.h arm/unknown-elf.h arm/elf.h arm/aout.h arm/arm.h pirix.h"
++	tm_file="dbxelf.h elfos.h gnu-user.h arm/unknown-elf.h arm/elf.h arm/aout.h arm/arm.h pirix.h arm/pirix.h glibc-stdint.h"
 +	tmake_file="arm/t-arm arm/t-arm-elf"
 +	tmake_file="${tmake_file} arm/t-arm-softfp soft-fp/t-softfp"
 +	use_fixproto=yes
 +	;;
 +i[3-7]86-*-pirix*)
-+	tm_file="${tm_file} i386/unix.h i386/att.h dbxelf.h elfos.h i386/i386elf.h pirix.h"
++	tm_file="${tm_file} i386/unix.h i386/att.h dbxelf.h elfos.h gnu-user.h i386/gnu-user-common.h i386/gnu-user.h pirix.h i386/pirix.h glibc-stdint.h"
 +	tmake_file="${tmake_file} i386/t-i386elf t-svr4 i386/t-crtstuff"
 +	use_fixproto=yes
 +	;;
@@ -52,11 +55,11 @@ diff -rupN gcc-4.8.0/libgcc/config.host gcc-4.8.0-patched/libgcc/config.host
  	unwind_header=config/arm/unwind-arm.h
  	;;
 +arm-*-pirix*)
-+    extra_parts="${extra_parts} crtbegin.o crtend.o crti.o crtn.o"
++    extra_parts="crtbegin.o crtbeginS.o crtbeginT.o crtend.o crtendS.o libgcc_eh.a"
 +    tmake_file="$tmake_file arm/t-arm arm/t-softfp t-softfp"
 +    ;;
 +i[3-7]86-*-pirix*)
-+    extra_parts="${extra_parts} crtbegin.o crtend.o crti.o crtn.o"
++    extra_parts="crtbegin.o crtbeginS.o crtbeginT.o crtend.o crtendS.o libgcc_eh.a"
 +    tmake_file="$tmake_file i386/t-crtstuff"
 +    ;;
  avr-*-rtems*)
