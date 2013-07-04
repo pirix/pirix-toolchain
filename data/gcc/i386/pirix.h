@@ -1,0 +1,5 @@
+#define GNU_USER_LINK_EMULATION "i386elf_pirix"
+
+#ifdef TARGET_LIBC_PROVIDES_SSP
+#undef TARGET_THREAD_SSP_OFFSET
+#endif
