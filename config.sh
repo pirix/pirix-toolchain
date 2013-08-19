@@ -1,11 +1,12 @@
 ARCH=i386
 TARGET=$ARCH-elf-pirix
-PREFIX=/usr/local/cross
+PREFIX=/opt/pirix-toolchain
 BASEDIR=`pwd`
-DESTDIR=$BASEDIR/cross
 BUILDDIR=$BASEDIR/build
 PIRIXDIR=$BASEDIR/../pirix
-PATH=$DESTDIR$PREFIX/bin:$PATH
+DESTDIR=$BASEDIR/dist
+
+PATH=$DESTDIR/$PREFIX/bin:$PATH
 MAKEFLAGS="-j 4"
 
 BINUTILS_VERSION=2.23.2
@@ -18,14 +19,6 @@ GCC_URL=http://ftp.gnu.org/gnu/gcc/gcc-$GCC_VERSION
 GCC_DIR=gcc-$GCC_VERSION
 GCC_PACKAGE=gcc-$GCC_VERSION.tar.gz
 
-function log() {
-    echo $1 "..."
-}
-
-function get() {
-    wget -c $1
-}
-
-function unpack() {
-    tar xf $1
-}
+GLIBC_URL=https://github.com/pirix/glibc-pirix/tarball/pirix
+GLIBC_PACKAGE=glibc-pirix.tar.gz
+GLIBC_DIR=glibc-pirix
